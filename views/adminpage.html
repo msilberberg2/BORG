@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>BORG Admin Page</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../public/borgsite.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="container">
+	<div class="btn-group btn-group-justified" role="group" aria-label="topbar">
+		<div class="btn-group" role="group">
+			<a href ="homepage.html"><button type="button" class="btn btn-primary fancy">Home</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="http://borglings.tumblr.com"><button type="button" class="btn btn-primary fancy">Tumblr</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="constitution.html"><button type="button" class="btn btn-primary fancy">Constitution</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="aboutus.html"><button type="button" class="btn btn-primary fancy">About Us</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="bookreviews.html"><button type="button" class="btn btn-primary fancy">Book Reviews</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="events.html"><button type="button" class="btn btn-primary fancy">Events</button></a>
+		</div>
+	</div>
+	<br>
+	
+	<div class="jumbotron center">
+		<h1><div class="label label-danger fancytitle" style="font-size: 90%">BORG</div></h1>
+		<br>
+		<h2><div class="label label-danger fancytitle" style="font-size: 90%">ADMIN PAGE</div></h2>
+	</div>
+</div>
+
+<div class="container" style="opacity: 1;">	
+	<!--Admin Options-->
+	<div class="panel panel-danger">
+		<div class="panel-heading"><div class="label label-success fancybutton">Add New Events</div></div>
+		<br>
+		<div class="panel-body">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<!--Form code is based off of the bootstrap tutorial at http://getbootstrap.com/css/-->
+					<label for="inputTitle" class="col-sm-2 control-label">Title</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputTitle" placeholder="Title">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDate" class="col-sm-2 control-label">Date</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputDate" placeholder="Date">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputTime" class="col-sm-2 control-label">Time</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputTime" placeholder="Time">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputLoc" class="col-sm-2 control-label">Location</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputLoc" placeholder="Location">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDesc" class="col-sm-2 control-label">Description</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" id="inputDesc" placeholder="Description" rows="5"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-danger fancybutton">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="panel panel-danger" >
+		<div class="panel-heading"><div class="label label-success fancybutton">Add New Book Reviews</div></div>
+		<br>
+		<div class="panel-body">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<!--Form code is based off of the bootstrap tutorial at http://getbootstrap.com/css/-->
+					<label for="inputTitle2" class="col-sm-2 control-label">Title</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputTitle2" placeholder="Title">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputAuthor" class="col-sm-2 control-label">Author</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputAuthor" placeholder="Author">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDateRev" class="col-sm-2 control-label">Review Date</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputDateRev" placeholder="Review Date">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDatePub" class="col-sm-2 control-label">Publication Date</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputDatePub" placeholder="Publication Date">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDesc2" class="col-sm-2 control-label">Description</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" id="inputDesc2" placeholder="Description" rows="5"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-danger fancybutton">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!--Contact Information For The Website Creator-->
+<div class="bottomcredit">Website created by Martin Silberberg. Contact me at silbmaerto@aol.com. Last Modified In 2015.</div>
+</body>
+</html>

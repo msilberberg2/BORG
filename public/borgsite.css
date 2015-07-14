@@ -29,6 +29,10 @@ body {
     background-size: 100%;
 }
 
+textarea{
+    resize: vertical;
+}
+
 .col-sm-4{
 	background-color: white;
 	border: 2px solid #CC6633;
@@ -86,4 +90,11 @@ body {
 .tablehead{
 	font-weight: bold;
 	font-size: 110%;
+}
+
+.bottomcredit{
+	color: white; 
+	font-family: verdana; 
+	font-size: 90%;
+	text-align: center;
 }
