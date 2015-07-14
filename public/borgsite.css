@@ -1,0 +1,89 @@
+.center {
+	text-align: center;
+}
+
+.jumbotron{
+	border: 1px solid #CC6633;
+	border-radius: 5px;
+	font-family: verdana;
+}
+
+h1{
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+h2{
+	font-family: helvetica;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+h3 {
+	font-family: verdana;
+	text-align: center;
+}
+
+body {
+	background-image: url("../pictures/space.jpg");
+    background-size: 100%;
+}
+
+.col-sm-4{
+	background-color: white;
+	border: 2px solid #CC6633;
+	border-radius: 5px;
+}
+
+.col-md-1{
+	background-color: white;
+	border: 2px solid #CC6633;
+	border-radius: 5px;
+}
+
+.container{
+	opacity: 0.9;
+}
+
+.panel-heading{
+	text-align: center;
+}
+.label{
+	font-size: 150%;
+	font-weight: bold;
+}
+
+.panel{
+	font-family: verdana;
+}
+
+.signup{
+	margin-left: 15px;
+}
+
+.btn{
+	font-weight: bold;
+}
+
+.fancybutton{
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 1px rgba(0, 0, 0, 0.075);
+	opacity: 1;
+}
+.fancy{
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 1px rgba(0, 0, 0, 0.075);
+}
+.fancytitle{
+	text-shadow: 0px -2px 0px rgba(0, 0, 0, 0.4);
+	box-shadow: 2px 3px 2px rgba(255, 255, 255, 0.15) inset, 0px 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tinybutton{
+	font-size: 90%;
+}
+
+.tablehead{
+	font-weight: bold;
+	font-size: 110%;
+}
