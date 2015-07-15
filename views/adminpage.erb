@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../public/borgsite.css">
+	<link rel="stylesheet" href="/borgsite.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
@@ -15,22 +15,22 @@
 <div class="container">
 	<div class="btn-group btn-group-justified" role="group" aria-label="topbar">
 		<div class="btn-group" role="group">
-			<a href ="homepage.html"><button type="button" class="btn btn-primary fancy">Home</button></a>
+			<a href ="/"><button type="button" class="btn btn-primary fancy">Home</button></a>
 		</div>
 		<div class="btn-group" role="group">
 			<a href ="http://borglings.tumblr.com"><button type="button" class="btn btn-primary fancy">Tumblr</button></a>
 		</div>
 		<div class="btn-group" role="group">
-			<a href ="constitution.html"><button type="button" class="btn btn-primary fancy">Constitution</button></a>
+			<a href ="/constitution"><button type="button" class="btn btn-primary fancy">Constitution</button></a>
 		</div>
 		<div class="btn-group" role="group">
-			<a href ="aboutus.html"><button type="button" class="btn btn-primary fancy">About Us</button></a>
+			<a href ="/aboutus"><button type="button" class="btn btn-primary fancy">About Us</button></a>
 		</div>
 		<div class="btn-group" role="group">
-			<a href ="bookreviews.html"><button type="button" class="btn btn-primary fancy">Book Reviews</button></a>
+			<a href ="/bookreviews"><button type="button" class="btn btn-primary fancy">Book Reviews</button></a>
 		</div>
 		<div class="btn-group" role="group">
-			<a href ="events.html"><button type="button" class="btn btn-primary fancy">Events</button></a>
+			<a href ="/events"><button type="button" class="btn btn-primary fancy">Events</button></a>
 		</div>
 	</div>
 	<br>
@@ -48,41 +48,41 @@
 		<div class="panel-heading"><div class="label label-success fancybutton">Add New Events</div></div>
 		<br>
 		<div class="panel-body">
-			<form class="form-horizontal">
+			<form class="form-horizontal" id="event-form" role="form">
 				<div class="form-group">
 					<!--Form code is based off of the bootstrap tutorial at http://getbootstrap.com/css/-->
 					<label for="inputTitle" class="col-sm-2 control-label">Title</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputTitle" placeholder="Title">
+						<input type="text" class="form-control" id="inputTitle" name="inputTitle" placeholder="Title">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputDate" class="col-sm-2 control-label">Date</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputDate" placeholder="Date">
+						<input type="text" class="form-control" id="inputDate" name="inputDate" placeholder="Date">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputTime" class="col-sm-2 control-label">Time</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputTime" placeholder="Time">
+						<input type="text" class="form-control" id="inputTime" name="inputTime" placeholder="Time">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputLoc" class="col-sm-2 control-label">Location</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputLoc" placeholder="Location">
+						<input type="text" class="form-control" id="inputLoc" name="inputLoc" placeholder="Location">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputDesc" class="col-sm-2 control-label">Description</label>
 					<div class="col-sm-10">
-						<textarea class="form-control" id="inputDesc" placeholder="Description" rows="5"></textarea>
+						<textarea class="form-control" id="inputDesc" name="inputDesc" placeholder="Description" rows="5"></textarea>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-danger fancybutton">Submit</button>
+						<button type="submit" class="btn btn-danger fancybutton" formaction="/create_event" formmethod="POST">Submit</button>
 					</div>
 				</div>
 			</form>
@@ -98,36 +98,42 @@
 					<!--Form code is based off of the bootstrap tutorial at http://getbootstrap.com/css/-->
 					<label for="inputTitle2" class="col-sm-2 control-label">Title</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputTitle2" placeholder="Title">
+						<input type="text" class="form-control" id="inputTitle2" name="inputTitle2" placeholder="Title">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputAuthor" class="col-sm-2 control-label">Author</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputAuthor" placeholder="Author">
+						<input type="text" class="form-control" id="inputAuthor" name="inputAuthor" placeholder="Author">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputDateRev" class="col-sm-2 control-label">Review Date</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputDateRev" placeholder="Review Date">
+						<input type="text" class="form-control" id="inputDateRev" name="inputDateRev" placeholder="Review Date">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputDatePub" class="col-sm-2 control-label">Publication Date</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputDatePub" placeholder="Publication Date">
+						<input type="text" class="form-control" id="inputDatePub" name="inputDatePub" placeholder="Publication Date">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPic" class="col-sm-2 control-label">Picture Link</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputPic" name="inputPic" placeholder="Picture Link (ex. http://img1.fantasticfiction.co.uk/images/n1/n6608.jpg)">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputDesc2" class="col-sm-2 control-label">Description</label>
 					<div class="col-sm-10">
-						<textarea class="form-control" id="inputDesc2" placeholder="Description" rows="5"></textarea>
+						<textarea class="form-control" id="inputDesc2" name="inputDesc2" placeholder="Description" rows="5"></textarea>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-danger fancybutton">Submit</button>
+						<button type="submit" class="btn btn-danger fancybutton" formaction="/review" formmethod="POST">Submit</button>
 					</div>
 				</div>
 			</form>

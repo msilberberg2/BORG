@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>BORG: Upcoming Events</title>
+	<title>BORG: Book Reviews</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -40,27 +40,54 @@
 	</div>
 </div>
 
-<!--List of upcoming Events-->
+<!--Book Reviews-->
 <div class="container">
 	<div class="column fancy">
-		<h3><div class="label label-success fancybutton" style="font-size: 100%;">Upcoming Events</div></h3>
+		<h3><div class="label label-success fancybutton" style="font-size: 100%;">Book Reviews</div></h3>
 		<br>
-		<% @events.each do |event| %>
-			<div class="panel panel-danger listing">
+		<% @reviews.each do |review| %>
+			<div class="panel panel-danger">
 				<div class="panel-body">
-					<div style="font-size: 155%;" class="label label-default fancybutton"><%=event.title%></div>
+					<div style="font-size: 155%;" class="label label-default fancybutton"><%=review.title%></div>
+					<img align="right" src=<%= review.picture%> height="140px" width="140px" alt=<%=review.title%> class="img-circle">
+					<br>
 					<hr>
-					<p><h4 class="label label-info fancybutton tinybutton">Date</h4> <%=event.eventdate%></p>
-					<p><h4 class="label label-info fancybutton tinybutton">Time</h4> <%=event.time%></p>
-					<p><h4 class="label label-info fancybutton tinybutton">Location</h4> <%=event.location%></p>
-					<p><%=event.description%></p>
+					<p><h4 class="label label-info fancybutton tinybutton">Review Date</h4> <%=review.revdate%></p>
+					<p><%=review.description[0..350]%>...</p>
+					<!--Expanded Text Box Button-->
+					<button type="button" class="btn btn-primary fancybutton" data-toggle="modal" data-target="#expandedReview"+<%review.id%>>
+						More...
+					</button>
 				</div>
 			</div>
 		<% end %>
 	</div>
 </div>
+<br>
 
-<br>			
+<!--Expanded Text Box. Code based off of Bootstrap's Javascript Tutorial. Creates an expanded textbox for each review, identified by that review's id.-->
+<% @reviews.each do |review| %>
+	<div class="modal fade" id="expandedReview"+<%review.id%> role="dialog" aria-labelledby="expandedReviewLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content fancy">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title label label-default fancybutton" id="expandedReviewLabel"><%=review.title%></h4>
+				</div>
+				<div class="modal-body">
+					<p><h4 class="label label-info fancybutton tinybutton">Author(s)</h4> <%=review.author%></p>
+					<p><h4 class="label label-info fancybutton tinybutton">Review Date</h4> <%=review.revdate%></p>
+					<p><h4 class="label label-info fancybutton tinybutton">Publication Date</h4> <%=review.pubdate%></p>
+					<p><%=review.description%></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>
+				
 <!--Contact Information For The Website Creator-->
 <div class="bottomcredit">Website created by Martin Silberberg. Contact me at silbmaerto@aol.com. Last Modified In 2015.</div>
 </body>
