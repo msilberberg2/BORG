@@ -55,7 +55,7 @@
 					<p><h4 class="label label-info fancybutton tinybutton">Review Date</h4> <%=review.revdate%></p>
 					<p><%=review.description[0..350]%>...</p>
 					<!--Expanded Text Box Button-->
-					<button type="button" class="btn btn-primary fancybutton" data-toggle="modal" data-target=<%review.id.to_s%>>
+					<button type="button" class="btn btn-primary fancybutton" data-toggle="modal" data-target="#expandedReview<%=review.title%>">
 						More...
 					</button>
 				</div>
@@ -67,7 +67,7 @@
 
 <!--Expanded Text Box. Code based off of Bootstrap's Javascript Tutorial. Creates an expanded textbox for each review, identified by that review's id.-->
 <% @reviews.each do |review| %>
-	<div class="modal fade" id=<%review.id.to_s%> role="dialog" aria-labelledby="expandedReviewLabel">
+	<div class="modal fade" id="expandedReview<%=review.title%>" role="dialog" aria-labelledby="expandedReviewLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content fancy">
 				<div class="modal-header">
