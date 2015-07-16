@@ -57,23 +57,23 @@
 		onmouseout="this.style.border='2px solid #CC6633';">
 		  <h3><div class="label label-success fancybutton" style="font-size: 100%">Book Reviews</div></h3>
 		  <br>
-		  <h4>MIGHTY ALLIED FORCES LAND, SHATTER PATH INTO FRANCE</h4>
-		  <p>06/06/1944</p>
-		  <p>Yeah D-Day happened and it was awesome. We blew up some jerries and I killed fitty men. 
-		  Even with no shins, I was out there taking nazee skulls. Did I mention that I killed fitty men?</p>
+		  <h4><%=@review.title%></h4>
+		  <p><%=@review.revdate%></p>
+		  <p><%=@review.description[0..260]%></p>
 		  <a href="/bookreviews">More...</a>
 		</div>
 		<!--Upcoming Events-->
 		<div class="col-sm-4 fancy"
 		onmouseover="this.style.border='3px solid #CC6633';"
 		onmouseout="this.style.border='2px solid #CC6633';">
-		  <h3><div class="label label-success fancybutton" style="font-size: 100%">Events</div></h3>        
-		  <br>
-		  <div><h4 class="label label-info fancybutton tinybutton">Activities Fair (Example)</h4><br><b>08/30/2015</b></div>
-		  <br>
-		  <div><h4 class="label label-info fancybutton tinybutton">Club Connections Conference</h4><br><b>08/31/2015</b></div>
-		  <br>
-		  <a href="/events">More...</a>
+			<!--Displays the next three events-->
+			<h3><div class="label label-success fancybutton" style="font-size: 100%">Events</div></h3>        
+		 	<br>
+		  	<% @events.each do |event| %>
+			 	<div><h4 class="label label-info fancybutton tinybutton"><%=event.title%></h4><br><b><%=event.eventdate%></b></div>
+			  	<br>
+		  	<% end %>
+		  	<a href="/events">More...</a>
 		</div>
 	</div>
 </div>

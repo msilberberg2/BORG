@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150714221125) do
     t.string   "time"
     t.string   "location"
     t.text     "description"
+    t.integer  "year"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
