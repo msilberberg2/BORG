@@ -10,8 +10,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="/bootstrap.min.js"></script>
 </head>
-<body>
 
+<body>
 <div class="container">
 	<div class="btn-group btn-group-justified" role="group" aria-label="topbar">
 		<div class="btn-group" role="group">
@@ -35,6 +35,17 @@
 	</div>
 	<br>
 	
+	<div class ="center">
+		<!--Displays Alert Messages After Sign In/Up Attempt-->
+		<% flash.each do |msg| %>
+			<br>
+			<div class="label label-warning fancy" style="font-size:120%; color: black;">
+				<%= msg[1] %>
+			</div>
+			<br><br>
+		<% end %>
+	</div>
+
 	<div class="jumbotron center">
 		<h1><div class="label label-danger fancytitle" style="font-size: 90%">BORG</div></h1>
 		<br>
@@ -87,35 +98,31 @@
 	<div class="panel panel-danger">
 		<div class="panel-heading"><div class="label label-success fancybutton">Login (Coming Soon)</div></div>
 		<br>
-		<div class ="center">
-			<% flash.each do |msg| %>
-				<div class="label label-default fancy" style="font-size:80%"><%= msg[1] %></div>
-			<% end %>
-		</div>
-		<br>
 		<div class="panel-body">
 			<form class="form-horizontal">
 				<div class="form-group">
 					<!--Form code is based off of the bootstrap tutorial at http://getbootstrap.com/css/-->
-					<label for="inputName" class="col-sm-2 control-label">Username</label>
+					<label for="loguser" class="col-sm-2 control-label">Username</label>
 					<div class="col-sm-10">
-					  <input type="text" class="form-control" id="user" name="user" placeholder="Username">
+					  <input type="text" class="form-control" id="loguser" name="loguser" placeholder="Username">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="inputPass" class="col-sm-2 control-label">Password</label>
+					<label for="logpassword" class="col-sm-2 control-label">Password</label>
 					<div class="col-sm-10">
-					  <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+					  <input type="password" class="form-control" id="logpassword" name="logpassword" placeholder="Password">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-					  <button type="submit" class="btn btn-danger fancybutton" formaction="/register" formmethod="POST">Sign In</button>
+					  <button type="submit" class="btn btn-danger fancybutton" formaction="/login" formmethod="POST">Sign In</button>
 					</div>
 				</div>
 			</form>
 		</div>
-		<div class="panel-footer">Don't Have An Account? <button class="btn btn-danger signup fancybutton">Sign Up</button></div>
+		<div class="panel-footer">Don't Have An Account? 
+			<button type="button" class="btn btn-danger signup fancybutton" data-toggle="modal" data-target='#signup'>Sign Up</button>
+		</div>
 	</div>
 </div>
 
@@ -127,6 +134,48 @@
 	</div>
 </div>
 <br>
+
+<!--Signup Textbox-->
+<div class="modal fade" id='signup' role="dialog" aria-labelledby='signupLabel'>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content fancy">
+			<div class="modal-header center">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title label label-success fancybutton" id='signupLabel'>Signup</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="user" class="col-sm-2 control-label">Username</label>
+						<div class="col-sm-10">
+						  	<input type="text" class="form-control" id="user" name="user" placeholder="Username">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-2 control-label">Password</label>
+						<div class="col-sm-10">
+						  	<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="col-sm-2 control-label">Email</label>
+						<div class="col-sm-10">
+						  	<input type="text" class="form-control" id="email" name="email" placeholder="Email Address">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+						  <button type="submit" class="btn btn-danger fancybutton" formaction="/register" formmethod="POST">Sign Up</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!--Contact Information For The Website Creator-->
 <div class="bottomcredit">Website created by Martin Silberberg. Contact me at silbmaerto@aol.com. Last Modified In 2015.</div>

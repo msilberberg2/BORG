@@ -85,10 +85,13 @@ post '/register' do
 		flash[:alert] = "Please Include a Password With At Least 5 Characters"
 	elsif params[:user] == ""
 		flash[:alert] = "Please Include a Username"
+	elsif !params[:email].include? "@"
+		flash[:alert] = "Please Include an Email Address"
 	else
 		user = User.new
 		user.name = params[:user]
 		user.password = params[:password]
+		user.email = params[:email]
 		user.admin = false
 		if user.save
 	    	flash[:notice] = "Welcome to the Site!"
