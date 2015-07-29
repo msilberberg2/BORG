@@ -3,12 +3,16 @@
 
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'sinatra/flash'
 require 'bcrypt'
 require 'json'
 require './models/event'
 require './models/review'
+require './models/user'
 require './classes.rb'
 require './tumblr_request.rb'
+
+enable :sessions
 
 def create_event(title, date, time, location, description, year)
 	Event.create(title: title, eventdate: date, time: time, location: location, description: description, year: year)
@@ -71,4 +75,26 @@ post '/create_event' do
 	eventdate = params[:inputDateMonth]+"/"+params[:inputDate]+"/"+params[:inputDateYear]
 	create_event(params[:inputTitle], eventdate, params[:inputTime], params[:inputLoc], params[:inputDesc], params[:inputDateYear])
 	redirect '/adminpage'
+end
+
+#Registers a new user
+post '/register' do
+	if User.where(name: params[:user]).first != nil
+		flash[:alert] = "User Already Exists"
+	elsif params[:password].length < 5
+		flash[:alert] = "Please Include a Password With At Least 5 Characters"
+	elsif params[:user] == ""
+		flash[:alert] = "Please Include a Username"
+	else
+		user = User.new
+		user.name = params[:user]
+		user.password = params[:password]
+		user.admin = false
+		if user.save
+	    	flash[:notice] = "Welcome to the Site!"
+		else
+			flash[:alert] = "Site Error. Please Try again"
+		end
+	end
+	redirect "/"
 end
