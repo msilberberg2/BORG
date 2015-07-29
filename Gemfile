@@ -6,6 +6,7 @@ gem 'sinatra-activerecord'
 gem 'bcrypt'
 gem 'unicorn'
 gem 'rake'
+gem 'tumblr_client'
 
 group :development do
 	gem 'sqlite3'

@@ -8,6 +8,7 @@ require 'json'
 require './models/event'
 require './models/review'
 require './classes.rb'
+require './tumblr_request.rb'
 
 def create_event(title, date, time, location, description, year)
 	Event.create(title: title, eventdate: date, time: time, location: location, description: description, year: year)
@@ -48,6 +49,15 @@ end
 
 get '/constitution' do
 	erb :constitution
+end
+
+get '/tumblr' do
+	tumblr_posts = TumblrRequest.return_borg_posts
+	#Assigns various information about the BORG tumblr to variables
+	blog = tumblr_posts["blog"]
+	@blog_title = blog["title"]
+	@posts = tumblr_posts["posts"]
+	erb :tumblr
 end
 
 #Creates a new entry in the reviews table, using the inputted variables

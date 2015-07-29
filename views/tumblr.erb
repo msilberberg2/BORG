@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>BORG: Upcoming Events</title>
+	<title>Brandeis Official Readers' Guild (BORG)</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/bootstrap.min.css">
@@ -9,8 +9,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="/bootstrap.min.js"></script>
 </head>
-
 <body>
+
 <div class="container">
 	<div class="btn-group btn-group-justified" role="group" aria-label="topbar">
 		<div class="btn-group" role="group">
@@ -33,6 +33,7 @@
 		</div>
 	</div>
 	<br>
+	
 	<div class="jumbotron center">
 		<h1><div class="label label-danger fancytitle" style="font-size: 90%">BORG</div></h1>
 		<br>
@@ -40,27 +41,40 @@
 	</div>
 </div>
 
-<!--List of upcoming Events-->
+
+<!--A list of the latest 10 posts-->
 <div class="container">
-	<div class="column fancy">
-		<h3><div class="label label-success fancybutton" style="font-size: 100%;">Upcoming Events</div></h3>
+	<div class=" column fancy">
+		<h3><div class="label label-success fancybutton" style="font-size: 110%">BORG Tumblr</div></h3>
+		<h3><div class="label label-primary fancybutton" style="font-size: 100%"><%=@blog_title%></div></h3>
 		<br>
-		<% @events.each do |event| %>
+		<% @posts.each do |p| %>
 			<div class="panel panel-danger listing">
 				<div class="panel-body">
-					<div style="font-size: 155%;" class="label label-default fancybutton"><%=event.title%></div>
+					<a href = "<%=p['post_url']%>" >
+						<div style="font-size: 155%;" class="label label-default fancybutton"><%=p["title"]%></div>
+					</a>
 					<hr>
-					<p><h4 class="label label-info fancybutton tinybutton">Date</h4> <%=event.eventdate%></p>
-					<p><h4 class="label label-info fancybutton tinybutton">Time</h4> <%=event.time%></p>
-					<p><h4 class="label label-info fancybutton tinybutton">Location</h4> <%=event.location%></p>
-					<p><%=event.description%></p>
+					<p><h4 class="label label-info fancybutton tinybutton">Date</h4> <%=p["date"]%></p>
+					<% if p["body"] != nil %>
+						<p><hr><%=p["body"][0..500]%><hr></p>
+					<% end %>
+					<p><h4 class="label label-primary fancybutton tinybutton"><a href = "<%=p['post_url']%>" style="color: white">More...</a></h4>
+						<a href = "<%=p['post_url']%>"><%=p["post_url"]%></a>
+					</p>
 				</div>
 			</div>
 		<% end %>
+		<div class="center">
+			<a href="http://borglings.tumblr.com">
+			<button type="submit" class="btn btn-danger fancybutton" style="font-size: 140%">Click Here For More Posts</button>
+			</a>
+		</div>
+		<br>
 	</div>
 </div>
+<br>
 
-<br>			
 <!--Contact Information For The Website Creator-->
 <div class="bottomcredit">Website created by Martin Silberberg. Contact me at silbmaerto@aol.com. Last Modified In 2015.</div>
 </body>
