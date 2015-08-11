@@ -22,6 +22,20 @@ def create_review(title, piclink, pubdate, revdate, author, description)
 	Review.create(title: title, picture: piclink, pubdate: pubdate, revdate: revdate, author: author, description: description)
 end
 
+#Checks if a user is logged in
+def login?
+	if session[:user_id] == nil && session[:user_admin] == nil
+		return false
+	elsif session[:user_id] == nil || session[:user_admin] == nil
+		#If part of the user's info is there but not all, the user is automatically logged out to correct mistake
+		session[:user_id] = nil
+		session[:user_admin] = nil
+		return false
+	else
+		return true
+	end	
+end
+
 get '/' do
 	if Review.last != nil
 		@review = Review.last
@@ -43,7 +57,12 @@ get '/aboutus' do
 end
 
 get '/adminpage' do
-	erb :adminpage
+	#webadmin is used as a permanent admin. Will be removed later once site is fully operational, for security purposes
+	if session[:user_admin] || User.find(session[:user_id]).name == "webadmin"
+		erb :adminpage
+	else
+		redirect "/"
+	end
 end
 
 get '/bookreviews' do
@@ -64,6 +83,28 @@ get '/tumblr' do
 	erb :tumblr
 end
 
+#Logs the user in
+post '/login' do
+	user = User.where(name: params[:loguser]).first
+	if user == nil
+		flash[:alert] = "User Does Not Exist"
+	elsif user.password == params[:logpassword]
+		session[:user_id] = user.id
+		session[:user_admin] = user.admin
+		flash[:alert] = "Welcome, #{user.name}!"
+	else
+		flash[:alert] = "Wrong Password"
+	end  
+	redirect "/"
+end
+
+#Logs the user out
+post '/logout' do
+	session[:user_id] = nil
+	session[:user_admin] = nil
+	redirect "/"
+end
+
 #Creates a new entry in the reviews table, using the inputted variables
 post '/review' do
 	create_review(params[:inputTitle2], params[:inputPic], params[:inputDatePub], params[:inputDateRev], params[:inputAuthor], params[:inputDesc2])
@@ -79,7 +120,9 @@ end
 
 #Registers a new user
 post '/register' do
-	if User.where(name: params[:user]).first != nil
+	if params[:univPass] != "Borgling"
+		flash[:alert] = "Universal Password Is Incorrect"
+	elsif User.where(name: params[:user]).first != nil
 		flash[:alert] = "User Already Exists"
 	elsif params[:password].length < 5
 		flash[:alert] = "Please Include a Password With At Least 5 Characters"
@@ -100,4 +143,29 @@ post '/register' do
 		end
 	end
 	redirect "/"
+end
+
+#Adds admin status to a user
+post "/add_admin" do
+	user = User.where(name: params[:inputUser]).first
+	if user != nil
+		user.admin = true
+		user.save
+	else
+		flash[:alert] = "User Does Not Exist"
+	end
+	redirect "/adminpage"
+end
+
+#Removes admin status from a user
+post "/remove_admin" do
+	user = User.where(name: params[:inputUser]).first
+	#A logged-in user can't remove their own admin status
+	if user != nil && user.id != session[:user_id]
+		user.admin = false
+		user.save
+	else
+		flash[:alert] = "Cannot remove admin status of non-existent users or yourself"
+	end
+	redirect "/adminpage"
 end

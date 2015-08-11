@@ -52,7 +52,7 @@
 			<div class="panel panel-danger listing">
 				<div class="panel-body">
 					<a href = "<%=p['post_url']%>" >
-						<div style="font-size: 155%;" class="label label-default fancybutton"><%=p["title"]%></div>
+						<div style="font-size: 155%;" class="label label-default fancybutton"><%=p["title"][0..45]%></div>
 					</a>
 					<hr>
 					<p><h4 class="label label-info fancybutton tinybutton">Date</h4> <%=p["date"]%></p>

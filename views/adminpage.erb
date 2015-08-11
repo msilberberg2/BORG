@@ -34,7 +34,18 @@
 		</div>
 	</div>
 	<br>
-	
+
+	<div class ="center">
+		<!--Displays Alert Messages-->
+		<% flash.each do |msg| %>
+			<br>
+			<div class="label label-warning fancy" style="font-size:120%; color: black;">
+				<%= msg[1] %>
+			</div>
+			<br><br>
+		<% end %>
+	</div>
+
 	<div class="jumbotron center">
 		<h1><div class="label label-danger fancytitle" style="font-size: 90%">BORG</div></h1>
 		<br>
@@ -136,6 +147,32 @@
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<button type="submit" class="btn btn-danger fancybutton" formaction="/review" formmethod="POST">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-danger" >
+		<div class="panel-heading"><div class="label label-success fancybutton">Change Admin Status</div></div>
+		<br>
+		<div class="panel-body">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<!--Form code is based off of the bootstrap tutorial at http://getbootstrap.com/css/-->
+					<label for="inputUser" class="col-sm-2 control-label">User</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputUser" name="inputUser" placeholder="Username">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-danger fancybutton" formaction="/add_admin" formmethod="POST">Give Admin Status</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-danger fancybutton" formaction="/remove_admin" formmethod="POST">Remove Admin Status</button>
 					</div>
 				</div>
 			</form>
