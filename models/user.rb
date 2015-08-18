@@ -1,6 +1,10 @@
 #bcrypt code based on code written for nanotwitt
 class User < ActiveRecord::Base
 	include BCrypt
+
+	has_many :threads
+	has_many :posts
+
 	def password
     	@password ||= Password.new(password_hash)
 	end

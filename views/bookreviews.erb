@@ -59,6 +59,13 @@
 					<button type="button" class="btn btn-primary fancybutton" data-toggle="modal" data-target='#expandedReview<%=review.id%>'>
 						More...
 					</button>
+					<% if session[:user_admin] %>
+						<form class="center form-horizontal">
+							<div class="form-group">
+								<button type="submit" class="btn btn-danger fancybutton tinybutton" formaction="/delete_review/<%=review.id%>" formmethod="POST">Delete Review</button>
+							</div>
+						</form>
+					<% end %>
 				</div>
 			</div>
 		<% end %>

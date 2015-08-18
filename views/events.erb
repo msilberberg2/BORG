@@ -54,6 +54,14 @@
 					<p><h4 class="label label-info fancybutton tinybutton">Time</h4> <%=event.time%></p>
 					<p><h4 class="label label-info fancybutton tinybutton">Location</h4> <%=event.location%></p>
 					<p><%=event.description%></p>
+					<!--Delete button available for admins-->
+					<% if session[:user_admin] %>
+						<form class="center form-horizontal">
+							<div class="form-group">
+								<button type="submit" class="btn btn-danger fancybutton tinybutton" formaction="/delete_event/<%=event.id%>" formmethod="POST">Delete Event</button>
+							</div>
+						</form>
+					<% end %>
 				</div>
 			</div>
 		<% end %>

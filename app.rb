@@ -118,6 +118,19 @@ post '/create_event' do
 	redirect '/adminpage'
 end
 
+#Deletes a review, given the review's id
+post '/delete_review/:review' do
+	Review.find(params['review']).destroy
+	redirect '/bookreviews'
+end
+
+
+#Deletes an event
+post '/delete_event/:event' do
+	Event.find(params['event']).destroy
+	redirect '/events'
+end
+
 #Registers a new user
 post '/register' do
 	if params[:univPass] != "Borgling"
