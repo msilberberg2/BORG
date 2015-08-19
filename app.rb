@@ -9,7 +9,11 @@ require 'json'
 require './models/event'
 require './models/review'
 require './models/user'
+require './models/post'
+require './models/topic'
+#Contains dummy classes
 require './classes.rb'
+#Processes requests to the Tumblr API
 require './tumblr_request.rb'
 
 enable :sessions
@@ -20,6 +24,10 @@ end
 
 def create_review(title, piclink, pubdate, revdate, author, description)
 	Review.create(title: title, picture: piclink, pubdate: pubdate, revdate: revdate, author: author, description: description)
+end
+
+def create_post(user_id, topic_id, content)
+	Post.create(user_id: user_id, topic_id: topic_id, content: content)
 end
 
 #Checks if a user is logged in
@@ -83,9 +91,16 @@ get '/tumblr' do
 	erb :tumblr
 end
 
+#Main forum page
 get '/forum' do
 	erb :forum
 end
+
+#Page for a specific forum thread
+get '/forum/threads/:thread' do
+	erb :forum
+end
+
 
 #Logs the user in
 post '/login' do
@@ -108,6 +123,29 @@ post '/logout' do
 	session[:user_admin] = nil
 	redirect "/"
 end
+
+#Creates a thread with one initial post
+post '/create_topic' do
+	topic = Topic.create(title: params[:title], post_count: 0, user_id: session[:user_id])
+	create_post(session[:user_id], topic.id, params[:content])
+	redirect '/forum/threads/#{params[:thread_id]}'
+end
+
+#Creates a post
+post '/create_post' do
+	create_post(session[:user_id], params[:topicId], params[:content])
+	redirect '/forum/threads/#{params[:thread_id]}'
+end
+
+
+#Updates a post's content
+post '/update_post' do
+	curr_post = Post.find(params[:postId])
+	curr_post.content = params[:content]
+	cur_post.save
+	redirect '/forum/threads/#{params[:thread_id]}'
+end
+
 
 #Creates a new entry in the reviews table, using the inputted variables
 post '/review' do

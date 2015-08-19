@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
 	include BCrypt
 
-	has_many :threads
+	has_many :topic
 	has_many :posts
 
 	def password
