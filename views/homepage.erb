@@ -26,11 +26,16 @@
 		<div class="btn-group" role="group">
 			<a href ="/aboutus"><button type="button" class="btn btn-primary fancy">About Us</button></a>
 		</div>
+	</div>
+	<div class="btn-group btn-group-justified" role="group" aria-label="topbar">	
 		<div class="btn-group" role="group">
 			<a href ="/bookreviews"><button type="button" class="btn btn-primary fancy">Book Reviews</button></a>
 		</div>
 		<div class="btn-group" role="group">
 			<a href ="/events"><button type="button" class="btn btn-primary fancy">Events</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="/forum"><button type="button" class="btn btn-primary fancy">BORG Forums</button></a>
 		</div>
 		<!-- Admin Options only appears when the user is an admin-->
 		<% if login? && session[:user_admin] == true %>

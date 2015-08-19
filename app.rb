@@ -83,6 +83,10 @@ get '/tumblr' do
 	erb :tumblr
 end
 
+get '/forum' do
+	erb :forum
+end
+
 #Logs the user in
 post '/login' do
 	user = User.where(name: params[:loguser]).first

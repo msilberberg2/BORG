@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>BORG: Tumblr</title>
+	<title>BORG: Forum</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/bootstrap.min.css">
@@ -56,31 +56,7 @@
 <!--A list of the latest 10 posts-->
 <div class="container">
 	<div class=" column fancy">
-		<h3><div class="label label-success fancybutton" style="font-size: 110%">BORG Tumblr</div></h3>
-		<h3><div class="label label-primary fancybutton" style="font-size: 100%"><%=@blog_title%></div></h3>
-		<br>
-		<% @posts.each do |p| %>
-			<div class="panel panel-danger listing">
-				<div class="panel-body">
-					<a href = "<%=p['post_url']%>" >
-						<div style="font-size: 155%;" class="label label-default fancybutton"><%=p["title"][0..45]%></div>
-					</a>
-					<hr>
-					<p><h4 class="label label-info fancybutton tinybutton">Date</h4> <%=p["date"]%></p>
-					<% if p["body"] != nil %>
-						<p><hr><%=p["body"][0..500]%><hr></p>
-					<% end %>
-					<p><h4 class="label label-primary fancybutton tinybutton"><a href = "<%=p['post_url']%>" style="color: white">More...</a></h4>
-						<a href = "<%=p['post_url']%>"><%=p["post_url"]%></a>
-					</p>
-				</div>
-			</div>
-		<% end %>
-		<div class="center">
-			<a href="http://borglings.tumblr.com">
-			<button type="submit" class="btn btn-danger fancybutton" style="font-size: 140%">Click Here For More Posts</button>
-			</a>
-		</div>
+		<h3><div class="label label-success fancybutton" style="font-size: 110%">BORG Forums</div></h3>
 		<br>
 	</div>
 </div>
