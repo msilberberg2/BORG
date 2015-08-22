@@ -58,6 +58,17 @@
 	<div class=" column fancy">
 		<h3><div class="label label-success fancybutton" style="font-size: 110%">BORG Forums</div></h3>
 		<br>
+		<% @topics.each do |topic| %>
+			<div class="panel panel-danger listing">
+				<div class="panel-body">
+					<div style="font-size: 155%;" class="label label-default fancybutton"><%=topic.title%></div>
+					<hr>
+					<p><h4 class="label label-info fancybutton tinybutton">Number of Posts</h4> <%=topic.post_count%></p>
+					<p><h4 class="label label-info fancybutton tinybutton">Last Post</h4> <%=TimeConverter.convert_time(topic.updated_at.in_time_zone("Eastern Time (US & Canada)"))%></p>
+					<p><h4 class="label label-info fancybutton tinybutton">Created By</h4> <%=topic.name%></p>
+				</div>
+			</div>
+		<% end %>
 	</div>
 </div>
 <br>

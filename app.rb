@@ -14,7 +14,9 @@ require './models/topic'
 #Contains dummy classes
 require './classes.rb'
 #Processes requests to the Tumblr API
-require './tumblr_request.rb'
+require './TumblrRequest.rb'
+#Allows Timestamps to be viewed
+require './TimeConverter.rb'
 
 enable :sessions
 
@@ -28,6 +30,9 @@ end
 
 def create_post(user_id, topic_id, content)
 	Post.create(user_id: user_id, topic_id: topic_id, content: content)
+	topic = Topic.find(topic_id)
+	topic.post_count = topic.post_count + 1
+	topic.save
 end
 
 #Checks if a user is logged in
@@ -93,11 +98,14 @@ end
 
 #Main forum page
 get '/forum' do
+	@topics = Topic.find_by_sql("SELECT topics.*, users.name FROM topics
+		INNER JOIN users ON topics.user_id = users.id
+		ORDER BY topics.updated_at desc")
 	erb :forum
 end
 
 #Page for a specific forum thread
-get '/forum/threads/:thread' do
+get '/forum/topics/:topic' do
 	erb :forum
 end
 
@@ -128,13 +136,13 @@ end
 post '/create_topic' do
 	topic = Topic.create(title: params[:title], post_count: 0, user_id: session[:user_id])
 	create_post(session[:user_id], topic.id, params[:content])
-	redirect '/forum/threads/#{params[:thread_id]}'
+	redirect '/forum/topics/#{params[:thread_id]}'
 end
 
 #Creates a post
 post '/create_post' do
 	create_post(session[:user_id], params[:topicId], params[:content])
-	redirect '/forum/threads/#{params[:thread_id]}'
+	redirect '/forum/topics/#{params[:thread_id]}'
 end
 
 
@@ -142,8 +150,8 @@ end
 post '/update_post' do
 	curr_post = Post.find(params[:postId])
 	curr_post.content = params[:content]
-	cur_post.save
-	redirect '/forum/threads/#{params[:thread_id]}'
+	curr_post.save
+	redirect '/forum/topics/#{params[:thread_id]}'
 end
 
 
