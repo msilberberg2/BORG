@@ -217,6 +217,8 @@ post '/register' do
 		user.email = params[:email]
 		user.admin = false
 		if user.save
+			session[:user_id] = user.id
+			session[:user_admin] = user.admin
 	    	flash[:notice] = "Welcome to the Site!"
 		else
 			flash[:alert] = "Site Error. Please Try again"
