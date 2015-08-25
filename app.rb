@@ -106,7 +106,13 @@ end
 
 #Page for a specific forum thread
 get '/forum/topics/:topic' do
-	erb :forum
+	@posts = Post.find_by_sql("SELECT posts.*, topics.title, users.name FROM posts
+		INNER JOIN topics ON posts.topic_id = topics.id
+		INNER JOIN users ON posts.user_id = users.id
+		WHERE #{params['topic']} = posts.topic_id
+		ORDER BY posts.created_at asc")
+	@topic_id = params['topic']
+	erb :topic
 end
 
 
@@ -134,24 +140,35 @@ end
 
 #Creates a thread with one initial post
 post '/create_topic' do
-	topic = Topic.create(title: params[:title], post_count: 0, user_id: session[:user_id])
-	create_post(session[:user_id], topic.id, params[:content])
-	redirect '/forum/topics/#{params[:thread_id]}'
+	if login?
+		topic = Topic.create(title: params[:title], post_count: 0, user_id: session[:user_id])
+		create_post(session[:user_id], topic.id, params[:content])
+		redirect '/forum/topics/#{topic.id}'
+	else
+		flash[:alert] = "Please Log In"
+		redirect "/"
+	end
 end
 
 #Creates a post
-post '/create_post' do
-	create_post(session[:user_id], params[:topicId], params[:content])
-	redirect '/forum/topics/#{params[:thread_id]}'
+post '/forum/topics/:topic/create_post' do
+	if login?
+		create_post(session[:user_id], params['topic'], params[:content])
+		
+		redirect "/forum/topics/#{params['topic']}"
+	else
+		flash[:alert] = "Please Log In"
+		redirect "/"
+	end
 end
 
 
 #Updates a post's content
-post '/update_post' do
-	curr_post = Post.find(params[:postId])
+post '/forum/posts/:post/update_post' do
+	curr_post = Post.find(params['post'])
 	curr_post.content = params[:content]
 	curr_post.save
-	redirect '/forum/topics/#{params[:thread_id]}'
+	redirect "/forum/topics/#{curr_post.topic_id}"
 end
 
 

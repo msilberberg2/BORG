@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>BORG: Forum</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/bootstrap.min.css">
+	<link rel="stylesheet" href="/borgsite.css">
+	<link rel="stylesheet" href="/borgforum.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+	<div class="btn-group btn-group-justified" role="group" aria-label="topbar">
+		<div class="btn-group" role="group">
+			<a href ="/"><button type="button" class="btn btn-primary fancy">Home</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="/tumblr"><button type="button" class="btn btn-primary fancy">Tumblr</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="/constitution"><button type="button" class="btn btn-primary fancy">Constitution</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="/aboutus"><button type="button" class="btn btn-primary fancy">About Us</button></a>
+		</div>
+	</div>
+	<div class="btn-group btn-group-justified" role="group" aria-label="topbar">	
+		<div class="btn-group" role="group">
+			<a href ="/bookreviews"><button type="button" class="btn btn-primary fancy">Book Reviews</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="/events"><button type="button" class="btn btn-primary fancy">Events</button></a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href ="/forum"><button type="button" class="btn btn-primary fancy">BORG Forums</button></a>
+		</div>
+		<!-- Admin Options only appears when the user is an admin-->
+		<% if login? && session[:user_admin] == true %>
+			<div class="btn-group" role="group">
+				<a href ="/adminpage"><button type="button" class="btn btn-danger fancy">Admin Options</button></a>
+			</div>
+		<% end %>
+	</div>
+	<br>
+	
+	<div class="jumbotron center">
+		<h1><div class="label label-danger fancytitle" style="font-size: 90%">BORG</div></h1>
+		<br>
+		<h2><div class="label label-danger fancytitle" style="font-size: 90%">Brandeis Official Readers' Guild</div></h2>
+	</div>
+</div>
+
+<div class="container">
+	<div class="column fancy">
+		<h3><div class="label label-success fancybutton" style="font-size: 110%">BORG Forums</div></h3>
+		<h3><div class="label label-primary fancybutton" style="font-size: 100%"><%=@posts.first.title%></div></h3>
+		<br>
+
+		<!--A list of all posts-->
+		<!--The count represents what number post this is-->
+		<%count=1%>
+		<% @posts.each do |post| %>
+			<div class="panel panel-danger postpanel">
+				<div class="panel-body forum">
+					<div class="left"><h4 class="label label-primary fancybutton tinybutton"><%=post.name%>:</h4></div>
+					<div class="right numberbox">&nbsp#<%=count%>&nbsp</div>
+					<br><br>
+					<p><%=post.content%></p>
+					<hr>
+					<!--An edit button if you own the post-->
+					<%if post.user_id == session[:user_id]%>
+						<button type="button" class="left btn btn-danger fancybutton edit" data-toggle="modal" data-target='#editPost<%=post.id%>'>Edit Post</button>
+					<%end%>
+					<!--Markers for times when post was created and edited-->
+					<p>
+						<div class="right forumbox" style="font-size: 80%;"><h4 class="label label-primary fancybutton" style="font-size: 110%;">Posted at</h4> 
+							<%=TimeConverter.convert_time(post.created_at.in_time_zone("Eastern Time (US & Canada)"))%>&nbsp</div>
+						<%if post.created_at != post.updated_at%>
+							<br><br>
+							<div class="right forumbox" style="font-size: 80%;"><h4 class="label label-primary fancybutton" style="font-size: 110%;">Edited at</h4> 
+							<%=TimeConverter.convert_time(post.updated_at.in_time_zone("Eastern Time (US & Canada)"))%>&nbsp</div>
+						<%end%>
+					</p>
+				</div>
+			</div>
+			<%count = count+1%>
+		<% end %>
+
+		<!--Button for new post creation-->
+		<% if login? %>
+			<div class="panel panel-danger createpanel center">
+				<div class="panel-body forum">
+					<button type="button" class="btn btn-danger fancybutton" data-toggle="modal" data-target='#createPost'>Add a New Post</button>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+<br>
+
+<!--Create New Post Textbox-->
+<div class="modal fade" id='createPost' role="dialog" aria-labelledby='createPostLabel'>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content fancy">
+			<div class="modal-header center">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title label label-success fancybutton" id='createPostLabel'>Add a New Post</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="content" class="col-sm-2 control-label">Content</label>
+						<div class="col-sm-10">
+						  	<textarea class="form-control" id="content" name="content" rows="5" placeholder="Type the text of your post here"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+						  <button type="submit" class="btn btn-danger fancybutton" formaction="/forum/topics/<%=@topic_id%>/create_post" formmethod="POST">Add Post</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Edit Post Textbox-->
+<% @posts.each do |post| %>
+	<%if post.user_id==session[:user_id]%>
+		<div class="modal fade" id='editPost<%=post.id%>' role="dialog" aria-labelledby='editPostLabel<%=post.id%>'>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content fancy">
+					<div class="modal-header center">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title label label-success fancybutton" id='editPostLabel<%=post.id%>'>Edit Your Post</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label for="content" class="col-sm-2 control-label">Content</label>
+								<div class="col-sm-10">
+								  	<textarea class="form-control" id="content" name="content" rows="5" value="<%=post.content%>"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+								  <button type="submit" class="btn btn-danger fancybutton" formaction="/forum/posts/<%=post.id%>/update_post" formmethod="POST">Update Post</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<%end%>
+<% end %>
+
+<!--Contact Information For The Website Creator-->
+<div class="bottomcredit">Website created by Martin Silberberg. Contact me at silbmaerto@aol.com. Last Modified In 2015.</div>
+</body>
+</html>

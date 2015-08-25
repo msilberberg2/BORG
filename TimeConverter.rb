@@ -25,6 +25,8 @@ module TimeConverter
 		if hour.to_i > 12
 			meridiem = "PM"
 			hour = (hour.to_i - 12).to_s
+		elsif hour.to_i == 12
+			meridiem = "PM"
 		elsif hour.to_i == 0
 			hour = "12"
 		end

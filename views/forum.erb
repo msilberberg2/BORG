@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/bootstrap.min.css">
 	<link rel="stylesheet" href="/borgsite.css">
+	<link rel="stylesheet" href="/borgforum.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="/bootstrap.min.js"></script>
 </head>
@@ -52,26 +53,78 @@
 	</div>
 </div>
 
-
-<!--A list of the latest 10 posts-->
 <div class="container">
-	<div class=" column fancy">
+	<div class="column fancy">
 		<h3><div class="label label-success fancybutton" style="font-size: 110%">BORG Forums</div></h3>
 		<br>
-		<% @topics.each do |topic| %>
-			<div class="panel panel-danger listing">
-				<div class="panel-body">
-					<div style="font-size: 155%;" class="label label-default fancybutton"><%=topic.title%></div>
-					<hr>
-					<p><h4 class="label label-info fancybutton tinybutton">Number of Posts</h4> <%=topic.post_count%></p>
-					<p><h4 class="label label-info fancybutton tinybutton">Last Post</h4> <%=TimeConverter.convert_time(topic.updated_at.in_time_zone("Eastern Time (US & Canada)"))%></p>
-					<p><h4 class="label label-info fancybutton tinybutton">Created By</h4> <%=topic.name%></p>
+
+		<!--Button for new thread creation-->
+		<% if login? %>
+			<div class="panel panel-danger forumpanel center">
+				<div class="panel-body forum">
+					<button type="button" class="btn btn-danger fancybutton" data-toggle="modal" data-target='#createTopic'>Create a New Topic</button>
 				</div>
 			</div>
+		<% end %>
+
+		<!--A list of all topics-->
+		<% @topics.each do |topic| %>
+			<a href ="/forum/topics/<%=topic.id%>">
+				<div class="panel panel-danger forumpanel"
+				onmouseover="this.style.border='3px solid #CC8633';"
+				onmouseout="this.style.border='2px solid #696969';">
+					<div class="panel-body forum">
+						<div style="font-size: 155%;" class="label label-success fancybutton"><%=topic.title%></div>
+						<div class="right forumbox"><h4 class="label label-primary fancybutton tinybutton">Created By</h4> <%=topic.name%>&nbsp</div>
+						<hr>
+						<p>
+							<div class="left forumbox"><h4 class="label label-primary fancybutton tinybutton">Number of Posts</h4>&nbsp&nbsp<%=topic.post_count%>&nbsp&nbsp</div>
+							<div class="right forumbox"><h4 class="label label-primary fancybutton tinybutton">Last Post</h4> <%=TimeConverter.convert_time(topic.updated_at.in_time_zone("Eastern Time (US & Canada)"))%>&nbsp
+							</div>
+						</p>
+					</div>
+				</div>
+			</a>
 		<% end %>
 	</div>
 </div>
 <br>
+
+<!--Create New Topic Textbox-->
+<div class="modal fade" id='createTopic' role="dialog" aria-labelledby='createTopicLabel'>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content fancy">
+			<div class="modal-header center">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title label label-success fancybutton" id='createTopicLabel'>Create New Topic</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="title" class="col-sm-2 control-label">Topic Name</label>
+						<div class="col-sm-10">
+						  	<input type="text" class="form-control" id="title" name="title" placeholder="Topic">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="content" class="col-sm-2 control-label">Content</label>
+						<div class="col-sm-10">
+						  	<textarea class="form-control" id="content" name="content" rows="5" placeholder="Type the first post of the new topic here"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+						  <button type="submit" class="btn btn-danger fancybutton" formaction="/create_topic" formmethod="POST">Post Topic</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!--Contact Information For The Website Creator-->
 <div class="bottomcredit">Website created by Martin Silberberg. Contact me at silbmaerto@aol.com. Last Modified In 2015.</div>

@@ -1,0 +1,58 @@
+.forum{
+	font-family: "Arial Black", sans-serif;
+	background-color: black;
+	color: white;
+}
+.forumbox{
+	border: 2px inset white;
+	border-radius: 10px;
+	border-left: none;
+}
+.numberbox{
+	border: 2px inset white;
+	border-radius: 10px;
+}
+.forumpanel{
+	border: 2px solid #696969; 
+	opacity: 0.9;
+}
+.postpanel{
+	border: 3px solid #696969; 
+	opacity: 0.9;
+	margin-bottom: 1px;
+}
+.createpanel{
+	border: 4px solid #696969;
+	opacity: 0.9;
+}
+
+.right{
+	float: right;
+}
+
+.left{
+	float: left;
+}
+
+.edit{
+	font-size: 70%; 
+	line-height: 5px;
+	margin-top: 5px;
+}
+
+.column{
+	background-color: #C8C8C8;
+}
+.jumbotron{
+	background-color: #C8C8C8;
+}
+
+hr{
+	border-color: #CC8633;
+	border-width: 2px;
+	margin-bottom: 5px;
+}
+
+a {
+    text-decoration: none !important;
+}
