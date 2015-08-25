@@ -143,7 +143,7 @@ post '/create_topic' do
 	if login?
 		topic = Topic.create(title: params[:title], post_count: 0, user_id: session[:user_id])
 		create_post(session[:user_id], topic.id, params[:content])
-		redirect "/forum/topics/#{topic.id}""
+		redirect "/forum/topics/#{topic.id}"
 	else
 		flash[:alert] = "Please Log In"
 		redirect "/"
