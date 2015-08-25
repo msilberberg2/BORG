@@ -31,6 +31,7 @@ body {
 
 textarea{
     resize: vertical;
+    white-space: pre;
 }
 
 .col-sm-4{
