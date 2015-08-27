@@ -1,7 +1,7 @@
 .forum{
 	font-family: "Arial Black", sans-serif;
-	background-color: black;
-	color: white;
+	background-color: #000080;
+	color: #d3d3d3;
 }
 .forumbox{
 	border: 2px inset white;
