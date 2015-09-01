@@ -26,6 +26,10 @@
 	opacity: 0.9;
 }
 
+img{
+	opacity:1;
+}
+
 .right{
 	float: right;
 }
