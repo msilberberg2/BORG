@@ -20,19 +20,19 @@ require './TimeConverter.rb'
 
 enable :sessions
 
-def create_event(title, date, time, location, description, year)
-	Event.create(title: title, eventdate: date, time: time, location: location, description: description, year: year)
-end
-
-def create_review(title, piclink, pubdate, revdate, author, description)
-	Review.create(title: title, picture: piclink, pubdate: pubdate, revdate: revdate, author: author, description: description)
-end
-
-def create_post(user_id, topic_id, content)
-	Post.create(user_id: user_id, topic_id: topic_id, content: content)
-	topic = Topic.find(topic_id)
-	topic.post_count = topic.post_count + 1
-	topic.save
+#Parses a string and replace all line breaks with <br> tags so the string displays correctly in HTML
+def fix_line_breaks(content)
+	while content.include?("\n")
+		break_index = content.index("\n")
+		head_string = content[0...break_index]
+		if break_index+1 < content.length
+			tail_string = content[break_index+1...content.length]
+		else
+			tail_string = ""
+		end
+		content =  head_string + "<br>" + tail_string 
+	end
+	return content
 end
 
 #Checks if a user is logged in
@@ -49,44 +49,60 @@ def login?
 	end	
 end
 
+#Checks if there is only une user in the site's database.
+def one_user?
+	if User.all.count == 1
+		return true
+	end 
+	return false
+end
+
+#Displays the main page of the website, with the latest review (if one exists) and a list of the three latest events
 get '/' do
 	if Review.last != nil
 		@review = Review.last
 	else
+		#If no review exists, a placeholder object is used instead
 		@review = DummyReview.new
 	end
-	#Reorders events based on the dates of those events
+	#Reorders events based on the dates of those events, and displays the next three upcoming ones
 	@events = Event.all.order('year', 'eventdate').take(3)
 	erb :homepage
 end
 
+#Displays a page with a list of all upcoming events for the club
 get '/events' do
 	@events = Event.all.order('year', 'eventdate')
 	erb :events
 end
 
+#Displays a webpage with general information about the club
 get '/aboutus' do
 	erb :aboutus
 end
 
+#Displays a page where one can do administrative functions
 get '/adminpage' do
-	#webadmin is used as a permanent admin. Will be removed later once site is fully operational, for security purposes
-	if session[:user_admin] || User.find(session[:user_id]).name == "webadmin"
+	#one_user? checks if there is only une user in the database. This user becomes the default admin until more users are added
+	if session[:user_admin] || one_user?
 		erb :adminpage
 	else
 		redirect "/"
 	end
 end
 
+#Displays a list of all book reviews, ordered so that latest ones come first
 get '/bookreviews' do
 	@reviews = Review.all.reverse
 	erb :bookreviews
 end
 
+#Displays a page which contains BORG's constitution
 get '/constitution' do
 	erb :constitution
 end
 
+#Sends a request to the Tumblr API to return the club's Tumblr posts, which are then displayed on a webpage
 get '/tumblr' do
 	tumblr_posts = TumblrRequest.return_borg_posts
 	#Assigns various information about the BORG tumblr to variables
@@ -98,6 +114,7 @@ end
 
 #Main forum page
 get '/forum' do
+		#A list of all forum topics
 	@topics = Topic.find_by_sql("SELECT topics.*, users.name FROM topics
 		INNER JOIN users ON topics.user_id = users.id
 		ORDER BY topics.updated_at desc")
@@ -106,6 +123,7 @@ end
 
 #Page for a specific forum thread
 get '/forum/topics/:topic' do
+	#A list of all posts for a particular forum topic, with the usernames for all posters
 	@posts = Post.find_by_sql("SELECT posts.*, topics.title, users.name FROM posts
 		INNER JOIN topics ON posts.topic_id = topics.id
 		INNER JOIN users ON posts.user_id = users.id
@@ -141,8 +159,11 @@ end
 #Creates a thread with one initial post
 post '/create_topic' do
 	if login?
+		#Converts occurences of \n into <br> tags
+		content = fix_line_breaks(params[:content])
+
 		topic = Topic.create(title: params[:title], post_count: 0, user_id: session[:user_id])
-		create_post(session[:user_id], topic.id, params[:content])
+		Post.create_post(session[:user_id], topic.id, content)
 		redirect "/forum/topics/#{topic.id}"
 	else
 		flash[:alert] = "Please Log In"
@@ -153,7 +174,9 @@ end
 #Creates a post
 post '/forum/topics/:topic/create_post' do
 	if login?
-		create_post(session[:user_id], params['topic'], params[:content])
+		content = fix_line_breaks(params[:content])
+
+		Post.create_post(session[:user_id], params['topic'], content)
 		
 		redirect "/forum/topics/#{params['topic']}"
 	else
@@ -165,8 +188,10 @@ end
 
 #Updates a post's content
 post '/forum/posts/:post/update_post' do
+	content = fix_line_breaks(params[:content])
+
 	curr_post = Post.find(params['post'])
-	curr_post.content = params[:content]
+	curr_post.content = content
 	curr_post.save
 	redirect "/forum/topics/#{curr_post.topic_id}"
 end
@@ -174,14 +199,14 @@ end
 
 #Creates a new entry in the reviews table, using the inputted variables
 post '/review' do
-	create_review(params[:inputTitle2], params[:inputPic], params[:inputDatePub], params[:inputDateRev], params[:inputAuthor], params[:inputDesc2])
+	Review.create_review(params[:inputTitle2], params[:inputPic], params[:inputDatePub], params[:inputDateRev], params[:inputAuthor], params[:inputDesc2])
 	redirect '/adminpage'
 end
 
 #Creates a new entry in the events table, using the inputted variables
 post '/create_event' do
 	eventdate = params[:inputDateMonth]+"/"+params[:inputDate]+"/"+params[:inputDateYear]
-	create_event(params[:inputTitle], eventdate, params[:inputTime], params[:inputLoc], params[:inputDesc], params[:inputDateYear])
+	Event.create_event(params[:inputTitle], eventdate, params[:inputTime], params[:inputLoc], params[:inputDesc], params[:inputDateYear])
 	redirect '/adminpage'
 end
 
@@ -200,6 +225,7 @@ end
 
 #Registers a new user
 post '/register' do
+	#When registering, a universal password is required. This password is Borgling. Could potentially be replaced by a CAPTCHA or similar feature in the future.
 	if params[:univPass] != "Borgling"
 		flash[:alert] = "Universal Password Is Incorrect"
 	elsif User.where(name: params[:user]).first != nil
